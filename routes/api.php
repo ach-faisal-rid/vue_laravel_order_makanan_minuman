@@ -15,3 +15,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/detail-order', function() {
+    return 'detail-order';
+})->middleware('auth:sanctum');
+
+Route::get('/create-order', function() {
+    return 'create-order';
+})->middleware('auth:AbleCreateOrder');
+
+Route::get('/finish-order', function() {
+    return 'finish-order';
+})->middleware('auth:AbleFinishOrder');
+
