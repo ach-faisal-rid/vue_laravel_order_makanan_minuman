@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         // custom middleware
         'AbleCreateOrder' => \App\Http\Middleware\AbleCreateOrder::class,
-        'AbleFinishOrder' => \App\Http\Middleware\AbleFinishOrder::class
+        'AbleFinishOrder' => \App\Http\Middleware\AbleFinishOrder::class,
+        'AbleCreateUser ' => \App\Http\Middleware\AbleCreateUser::class
     ];
 }

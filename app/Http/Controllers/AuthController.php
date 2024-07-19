@@ -21,11 +21,11 @@ class AuthController extends Controller
             return response()->json(['message' => 'Credentials are incorrect.'], 401);
         }
 
+        $user->tokens()->delete(); // menghapus token sebelumnya
         $token = $user->createToken('auth_token')->plainTextToken;
-
         return response()->json([
             'success' => true,
-            'user' => [
+            'data' => [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
@@ -36,5 +36,23 @@ class AuthController extends Controller
             'token' => $token,
         ], 200);
 
+    }
+
+    // fungsi current
+    public function me() {
+        $user = auth()->user();
+
+        if ($user) {
+            return response()->json([
+                'data' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                ],
+                'message' => 'Informasi pengguna saat ini',
+            ], 200);
+        } else {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,17 +15,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// route login
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/detail-order', function() {
-    return 'detail-order';
-})->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->group(function () {
+    // route current
+    Route::get('/current',[AuthController::class, 'current']);
 
-Route::get('/create-order', function() {
-    return 'create-order';
-})->middleware('auth:AbleCreateOrder');
+    // route detail order
+    Route::get('/detail-order', function() {
+        return 'detail-order';
+    });
 
-Route::get('/finish-order', function() {
-    return 'finish-order';
-})->middleware('auth:AbleFinishOrder');
+    // route create order
+    Route::get('/create-order', function() {
+        return 'create-order';
+    })->middleware('AbleCreateOrder');
+
+    // route finish order
+    Route::get('/finish-order', function() {
+        return 'finish-order';
+    })->middleware('AbleFinishOrder');
+
+    // create user
+    Route::post('/user', [UserController::class, 'store'])
+    ->middleware('AbleCreateUser');
+});
 
