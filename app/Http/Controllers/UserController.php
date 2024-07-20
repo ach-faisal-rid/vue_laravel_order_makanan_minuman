@@ -15,11 +15,11 @@ class UserController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required',
-            'role_id' => 'required' .Rule::in(['1', '2', '3', '4']),
+            'role_id' => ['required', Rule::in([1, 2, 3, 4])]
         ]);
 
         $validated['password'] = Hash::make($request->password);
-        $user = User::create($request->all());
+        $user = User::create($validated);
 
         return response()->json([
             'success' => true,
@@ -27,10 +27,11 @@ class UserController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
-                'level' => $user->role_id,
-                'tgl_buat' =>date('Y-m-d H:i:s', strtotime($user->timestamps)),
+                'level' => $user->role_id, // or $user->level if mapped
+                'tgl_buat' => date('Y-m-d H:i:s', strtotime($user->created_at)),
             ],
             'message' => 'user berhasil dibuat',
         ], 201);
     }
+
 }

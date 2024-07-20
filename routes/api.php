@@ -17,10 +17,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 // route login
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])
+    ->name('login');
 
 // route group user are required to log in
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     // route current
     Route::get('/me',[AuthController::class, 'me']);
 
@@ -44,7 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
     })->middleware(['AbleFinishOrder']);
 
     // create item
-    Route::post('/item', [ItemController::class])
+    Route::post('/item', [ItemController::class, 'store'])
     ->middleware(['AbleCreateUpdateItem']);
 });
 

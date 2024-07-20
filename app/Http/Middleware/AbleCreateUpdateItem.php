@@ -13,7 +13,7 @@ class AbleCreateUpdateItem
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, string ...$guards): Response
     {
         $user = auth()->user();
         if($user->role_id != 4) {

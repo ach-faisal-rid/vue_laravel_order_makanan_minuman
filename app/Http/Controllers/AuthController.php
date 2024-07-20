@@ -44,10 +44,12 @@ class AuthController extends Controller
 
         if ($user) {
             return response()->json([
+                'success' => true,
                 'data' => [
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
+                    'role' => $user->role_id
                 ],
                 'message' => 'Informasi pengguna saat ini',
             ], 200);
