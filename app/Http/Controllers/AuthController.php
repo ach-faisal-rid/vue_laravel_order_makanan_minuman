@@ -39,7 +39,7 @@ class AuthController extends Controller
     }
 
     // fungsi current
-    public function me() {
+    public function me(Request $request) {
         $user = auth()->user();
 
         if ($user) {
