@@ -67,6 +67,6 @@ class Kernel extends HttpKernel
         'AbleCreateOrder' => \App\Http\Middleware\AbleCreateOrder::class,
         'AbleFinishOrder' => \App\Http\Middleware\AbleFinishOrder::class,
         'AbleCreateUser' => \App\Http\Middleware\AbleCreateUser::class,
-        'AbleCreateUpdateItem ' => \App\Http\Middleware\AbleCreateUpdateItem::class,
+        'AbleCreateUpdateItem' => \App\Http\Middleware\AbleCreateUpdateItem::class
     ];
 }
