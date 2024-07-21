@@ -23,29 +23,34 @@ Route::post('/login', [AuthController::class, 'login'])
 // route group user are required to log in
 Route::middleware(['auth:sanctum'])->group(function () {
     // route current
-    Route::get('/me',[AuthController::class, 'me']);
+    Route::get('/me',[AuthController::class, 'me'])->name('me');
 
     // create user
     Route::post('/user', [UserController::class, 'store'])
-    ->middleware(['AbleCreateUser']);
+    ->middleware(['AbleCreateUser'])->name('create-user');
 
     // route detail order
     Route::get('/detail-order', function() {
         return 'detail-order';
-    });
+    })->name('detail-order');
 
     // route create order
     Route::get('/create-order', function() {
         return 'create-order';
-    })->middleware(['AbleCreateOrder']);
+    })->middleware(['AbleCreateOrder'])
+    ->name('create-order');
 
     // route finish order
     Route::get('/finish-order', function() {
         return 'finish-order';
-    })->middleware(['AbleFinishOrder']);
+    })->middleware(['AbleFinishOrder'])
+    ->name('finish-order');
 
     // create item
     Route::post('/item', [ItemController::class, 'store'])
-    ->middleware(['AbleCreateUpdateItem']);
+    ->middleware(['AbleCreateUpdateItem'])->name('create-item');
+
+    Route::post('/item/{id}', [ItemController::class, 'update'])
+    ->middleware(['AbleCreateUpdateItem'])->name('update-item');
 });
 
