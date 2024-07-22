@@ -15,6 +15,6 @@ class Order extends Model
         'status',
         'total',
         'waitress_id',
-        'chasier_id'
+        // 'chasier_id'
     ];
 }

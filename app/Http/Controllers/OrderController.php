@@ -36,7 +36,7 @@ class OrderController extends Controller
             $data['status'] = 'ordered';
             $data['total'] = 1;
             $data['waitress_id'] = auth()->user()->role_id;
-            $data['chasier_id'] = null;
+            // $data['cashier_id'] = null;
             $data['items'] = $request->item;
 
             $order = Order::create($data);
@@ -48,7 +48,6 @@ class OrderController extends Controller
                     'item_id' => $item,
                 ]);
             });
-
 
             DB::commit();
         } catch (\Exception $e) {

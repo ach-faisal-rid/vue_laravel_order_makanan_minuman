@@ -57,4 +57,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/item/{id}', [ItemController::class, 'update'])
     ->middleware(['AbleCreateUpdateItem'])->name('update-item');
 });
-

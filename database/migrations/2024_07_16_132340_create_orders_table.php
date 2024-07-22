@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('status', 100);
             $table->integer('total')->unsigned();
             $table->unsignedBigInteger('waitress_id');
-            $table->unsignedBigInteger('chasier_id');
+            $table->unsignedBigInteger('chasier_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
