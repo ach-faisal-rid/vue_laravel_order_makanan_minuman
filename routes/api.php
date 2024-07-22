@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,9 +36,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     })->name('detail-order');
 
     // route create order
-    Route::get('/create-order', function() {
-        return 'create-order';
-    })->middleware(['AbleCreateOrder'])
+    Route::post('/order', [OrderController::class, 'store'])
+    ->middleware(['AbleCreateOrder'])
     ->name('create-order');
 
     // route finish order
@@ -46,10 +46,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     })->middleware(['AbleFinishOrder'])
     ->name('finish-order');
 
-    // create item
+    // route index item
+    Route::get('/item', [ItemController::class, 'index']);
+
+    // route create item
     Route::post('/item', [ItemController::class, 'store'])
     ->middleware(['AbleCreateUpdateItem'])->name('create-item');
 
+    // route update item
     Route::post('/item/{id}', [ItemController::class, 'update'])
     ->middleware(['AbleCreateUpdateItem'])->name('update-item');
 });

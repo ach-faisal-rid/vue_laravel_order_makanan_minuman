@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Log;
 
 class ItemController extends Controller
 {
+    // fungsi index
+    public function index() {
+        $items = Item::select('id', 'name', 'price', 'image')->get();
+        return response()->json([
+            'data' => $items
+        ]);
+    }
+
     // fungsi create item
     public function store(Request $request) {
         $validated = $request->validate([
@@ -137,5 +145,5 @@ class ItemController extends Controller
         }
     }
 
-
+    // function delete
 }
