@@ -47,7 +47,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ->name('finish-order');
 
     // route index item
-    Route::get('/item', [ItemController::class, 'index']);
+    Route::get('/item', [ItemController::class, 'index'])->name('index');
 
     // route create item
     Route::post('/item', [ItemController::class, 'store'])

@@ -13,4 +13,13 @@ class OrderStatus extends Model
         'order_id',
         'item_id'
     ];
+
+    public function Item()
+    {
+        return $this->hasMany(Item::class); // Assuming 'Item' is the model name
+    }
+    public function order()
+    {
+        return $this->hasMany(Order::class); // Assuming 'Order' is the model name
+    }
 }

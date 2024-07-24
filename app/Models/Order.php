@@ -15,6 +15,15 @@ class Order extends Model
         'status',
         'total',
         'waitress_id',
-        // 'chasier_id'
+        'chasier_id'
     ];
+
+    public function ordersStatus()
+    {
+        return $this->hasMany(OrderStatus::class); // Assuming 'OrderStatus' is the model name
+    }
+    public function role()
+    {
+        return $this->hasMany(Role::class); // Assuming 'Role' is the model name
+    }
 }

@@ -23,6 +23,7 @@ class ItemController extends Controller
         $validated = $request->validate([
             'name' => 'required|max:255',
             'price' => 'required|integer',
+            'category' => 'required|max:255',
             'image_file' => 'nullable|mimes:jpg,jpeg,png|max:2048' // 2 MB max
         ]);
 
@@ -30,6 +31,7 @@ class ItemController extends Controller
         $data = [
             'name' => $validated['name'],
             'price' => $validated['price'],
+            'category' => $validated['category'],
         ];
 
         if ($request->hasFile('image_file')) {
@@ -54,6 +56,7 @@ class ItemController extends Controller
                 'data' => [
                     'name' => $item->name,
                     'price' => $item->price,
+                    'category' => $item->category,
                     'image_url' => $imageUrl,
                     'tgl_buat' => $item->created_at->format('Y-m-d H:i:s'),
                 ],
@@ -71,6 +74,7 @@ class ItemController extends Controller
         $validated = $request->validate([
             'name' => 'required|max:255',
             'price' => 'required|integer',
+            'category' => 'required|max:255',
             'image_file' => 'nullable|mimes:jpg,jpeg,png|max:2048', // 2 MB max
         ]);
 
@@ -78,6 +82,7 @@ class ItemController extends Controller
         $data = [
             'name' => $validated['name'],
             'price' => $validated['price'],
+            'category' => $validated['category'],
         ];
 
         // Find the item to update based on the provided ID
@@ -132,6 +137,7 @@ class ItemController extends Controller
                 'success' => true,
                 'name' => $item->name,
                 'price' => $item->price,
+                'category' => $item->category,
                 'image_file' => $imageUrl,
                 'image_status' => $imageStatus,
                 'tgl_buat' => $item->created_at->format('Y-m-d H:i:s'),
