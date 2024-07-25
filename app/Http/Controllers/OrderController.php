@@ -106,4 +106,35 @@ class OrderController extends Controller
         ], 201); // Memberikan kode status HTTP 201 untuk berhasil dibuat
     }
 
+    // fungsu setAsDone
+    public function setAsDone($id) {
+        $order = Order::findOrFail($id);
+
+        if($order->status != 'ordered') {
+            return response()->json([
+                'message' => 'order cannot set to done because the status is not ordered'
+            ], 403);
+        }
+        $order->status = 'done';
+        $order->save();
+
+        return response()->json([
+            'data' => $order
+        ]);
+    }
+
+    // fungsi payment order
+    public function payment($id) {
+        $order = Order::findOrFail($id);
+
+        if($order->status != 'done') {
+            return response()->json([
+                'message' => 'payment cannot be done because the status is not done'
+            ], 403);
+        }
+
+        $order->status = 'paid';
+        $order->save();
+    }
+
 }

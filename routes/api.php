@@ -43,11 +43,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ->middleware(['AbleCreateOrder'])
     ->name('create-order');
 
-    // route finish order
-    Route::get('/finish-order', function() {
-        return 'finish-order';
-    })->middleware(['AbleFinishOrder'])
-    ->name('finish-order');
+    // route done order
+    Route::get('/done-order/{id}/set-as-done', [OrderController::class, 'setAsDone'])
+    ->middleware(['AbleFinishOrder'])
+    ->name('done-order');
+
+    // route payment order
+    Route::get('/done-order/{id}/payment', [OrderController::class, 'payment'])
+    ->middleware(['AblePayOrder'])
+    ->name('pay-order');
 
     // route index item
     Route::get('/item', [ItemController::class, 'index'])->name('index');
