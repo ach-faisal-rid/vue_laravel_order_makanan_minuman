@@ -25,8 +25,12 @@ class Order extends Model
     {
         return $this->hasMany(OrderStatus::class); // Assuming 'OrderStatus' is the model name
     }
-    public function role()
+    public function waitress()
     {
-        return $this->belongsTo(Role::class); // Assuming 'Role' is the model name
+        return $this->belongsTo(User::class, 'waitress_id', 'id'); // Assuming 'Role' is the model name
+    }
+    public function chasier()
+    {
+        return $this->belongsTo(User::class, 'chasier_id', 'id'); // Assuming 'Role' is the model name
     }
 }
