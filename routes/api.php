@@ -25,6 +25,9 @@ Route::post('/login', [AuthController::class, 'login'])
 Route::middleware(['auth:sanctum'])->group(function () {
     // route current
     Route::get('/me',[AuthController::class, 'me'])->name('me');
+    // route logout
+    Route::post('/logout', [AuthController::class, 'logout'])
+    ->name('logout');
 
     // create user
     Route::post('/user', [UserController::class, 'store'])
@@ -49,7 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ->name('done-order');
 
     // route payment order
-    Route::get('/done-order/{id}/payment', [OrderController::class, 'payment'])
+    Route::get('/pay-order/{id}/payment', [OrderController::class, 'payment'])
     ->middleware(['AblePayOrder'])
     ->name('pay-order');
 
