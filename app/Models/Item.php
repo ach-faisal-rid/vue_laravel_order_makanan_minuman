@@ -10,6 +10,8 @@ class Item extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'items';
+    
     protected $fillable = [
         'name',
         'price',

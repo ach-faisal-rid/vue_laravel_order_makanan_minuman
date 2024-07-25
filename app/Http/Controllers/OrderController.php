@@ -10,55 +10,95 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    // fungsi create order
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|max:255',
-            'no' => 'required|integer',
+    // fungsi index order
+    public function index() {
+        $order = Order::select('id', 'customer_name', 'table_no', 'status', 'total')
+        ->get();
+        return response()->json([
+            'data' => $order
+        ]);
+    }
 
+    // fungsi show order
+    public function show($id) {
+        $order = Order::findOrFail($id);
+        return response()->json([
+            'data' => $order
+            ->loadMissing(['orderStatus:order_id,price,item_id', 'orderStatus.item:name,category,id'])
+        ]);
+    }
+
+    // fungsi create order
+    public function store(Request $request) {
+        // Validasi input
+        $validated = $request->validate([
+            'customer_name' => 'required|max:100',
+            'table_no' => 'required',
+            'items' => 'array', // Validasi bahwa items adalah array
+            'items.*' => 'exists:items,id' // Validasi bahwa setiap item ada di tabel items
         ]);
 
         try {
             DB::beginTransaction();
 
-            $data =  $request->only('name', 'no');
-
-            // Map form field names to model field names
-            $data['customer_name'] = $data['name'];
-            unset($data['name']);  // Remove the original 'name' key from $data
-
-            $data['table_no'] = $data['no'];
-            unset($data['no']);    // Remove the original 'no' key from $data
-
-            $data['order_date'] = date('Y-m-d');
-            $data['order_time'] = date('H:i:s');
+            // Ambil data dari request
+            $data = $request->only('customer_name', 'table_no');
             $data['status'] = 'ordered';
-            $data['total'] = 1;
-            $data['waitress_id'] = auth()->user()->role_id;
-            // $data['cashier_id'] = null;
-            $data['items'] = $request->item;
+            $data['total'] = 0; // Inisialisasi total dengan 0
+            $data['waitress_id'] = auth()->user()->id;
 
+            // Membuat order baru
             $order = Order::create($data);
 
-            collect($data['items'])->map(function ($item) use ($order) {
-                $foodDrinks = Item::where('id', $item)->first();
-                OrderStatus::create([
-                    'order_id' => $order->id,
-                    'item_id' => $item,
-                ]);
-            });
+            // Mendapatkan item dari request, jika tidak ada, set sebagai array kosong
+            $items = $request->input('items', []);
+            $orderStatuses = [];
+            $totalPrice = 0;
+
+            // Ambil semua item dari database dalam satu query
+            if (!empty($items)) {
+                $foodDrinks = Item::whereIn('id', $items)->get()->keyBy('id');
+
+                // Proses setiap item
+                foreach ($items as $item) {
+                    if (isset($foodDrinks[$item])) {
+                        $foodDrink = $foodDrinks[$item];
+                        $orderStatuses[] = [
+                            'order_id' => $order->id,
+                            'item_id' => $item,
+                            'price' => $foodDrink->price,
+                            'qty' => 1,
+                            'total' => 1,
+                            'created_at' => now(),
+                            'updated_at' => now()
+                        ];
+
+                        // Tambahkan harga item ke total
+                        $totalPrice += $foodDrink->price;
+                    }
+                }
+            }
+
+            // Bulk insert OrderStatus
+            if (!empty($orderStatuses)) {
+                OrderStatus::insert($orderStatuses);
+            }
+
+            // Update total order setelah memproses item
+            $order->total = $totalPrice;
+            $order->save();
 
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            return response($e);
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500); // Memberikan kode status HTTP 500 untuk kesalahan server
         }
 
         return response()->json([
-            'success' => true,
-            'data' => $order,
-            'message' => 'order berhasil dibuat',
-        ], 200);
+            'data' => $order
+        ], 201); // Memberikan kode status HTTP 201 untuk berhasil dibuat
     }
+
 }

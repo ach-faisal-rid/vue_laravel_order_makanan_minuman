@@ -31,9 +31,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ->middleware(['AbleCreateUser'])->name('create-user');
 
     // route detail order
-    Route::get('/detail-order', function() {
-        return 'detail-order';
-    })->name('detail-order');
+    Route::get('/detail-order', [OrderController::class, 'index'])
+    ->name('detail-order');
+
+    // route detail order berdasarkan id
+    Route::get('/detail-order/{id}', [OrderController::class, 'show'])
+    ->name('show-order');
 
     // route create order
     Route::post('/order', [OrderController::class, 'store'])

@@ -12,7 +12,7 @@ class ItemController extends Controller
 {
     // fungsi index
     public function index() {
-        $items = Item::select('id', 'name', 'price', 'image')->get();
+        $items = Item::select('id', 'name', 'price', 'image', 'category')->get();
         return response()->json([
             'data' => $items
         ]);

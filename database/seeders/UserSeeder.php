@@ -24,8 +24,8 @@ class UserSeeder extends Seeder
             'email' => 'manager@mail.com',
             'password' => Hash::make('$Valeuqio123'),
             'role_id' => 4,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
     }
 }
