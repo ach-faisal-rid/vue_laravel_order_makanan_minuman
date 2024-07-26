@@ -3,6 +3,13 @@ import { RouterLink, RouterView, useRouter } from 'vue-router';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 
+// Mengelola state untuk hamburger menu
+const isMenuOpen = ref(false);
+
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value;
+};
+
 // Inisialisasi nilai ref untuk menyimpan nama pengguna
 const userName = ref('');
 
@@ -11,34 +18,41 @@ onMounted(() => {
   userName.value = localStorage.getItem('name') || '';
 });
 
-// Mengelola state untuk hamburger menu
-const isMenuOpen = ref(false);
-
-const toggleMenu = () => {
-  isMenuOpen.value = !isMenuOpen.value;
-};
-
 // Menggunakan router untuk navigasi
 const router = useRouter();
 
 const logout = async () => {
   try {
+    // Pastikan URL API sesuai dengan endpoint logout di backend Anda
     const response = await axios.post('http://vue_laravel_order_makanan_minuman.test/api/logout', {}, {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem('token')}`
       }
     });
-    console.log(response.data);
-    localStorage.removeItem('email');
-    localStorage.removeItem('name');
-    localStorage.removeItem('role_id');
-    localStorage.removeItem('token');
-    userName.value = '';
-    router.push({ name: 'login' });
+
+    if (response.status === 200) {
+      console.log('Logout successful:', response.data);
+
+      // Bersihkan semua data yang relevan dari localStorage
+      localStorage.removeItem('email');
+      localStorage.removeItem('name');
+      localStorage.removeItem('role_id');
+      localStorage.removeItem('token');
+
+      // Reset userName setelah logout
+      userName.value = '';
+
+      // Redirect ke halaman login setelah logout
+      router.push({ name: 'login' });
+    } else {
+      console.error('Logout failed:', response.statusText);
+    }
   } catch (error) {
-    console.error(error);
+    console.log(error);
+    console.log('ini error');
   }
 };
+
 </script>
 
 <template>
