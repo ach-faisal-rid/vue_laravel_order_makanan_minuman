@@ -34,12 +34,12 @@
                                 </div>
 
                                 <div>
-                                    <div class="flex items-center justify-between">
+                                    <!-- <div class="flex items-center justify-between">
                                         <label for="password" class="text-base font-medium text-gray-900">Password</label>
                                         <a href="#" class="text-sm font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 focus:text-orange-600 hover:underline">
                                             Forgot password?
                                         </a>
-                                    </div>
+                                    </div> -->
                                     <div class="mt-2.5 relative text-gray-400 focus-within:text-gray-600">
                                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -61,14 +61,14 @@
                                     </button>
                                 </div>
 
-                                <div class="text-center">
+                                <!-- <div class="text-center">
                                     <p class="text-base text-gray-600">
                                         Don’t have an account?
                                         <a href="#" class="font-medium text-orange-500 transition-all duration-200 hover:text-orange-600 hover:underline">
                                             Create a free account
                                         </a>
                                     </p>
-                                </div>
+                                </div> -->
                             </div>
                         </form>
                     </div>
