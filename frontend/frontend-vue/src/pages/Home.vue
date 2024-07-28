@@ -1,16 +1,9 @@
 <template>
-    <h1>home page</h1>
-   </template>
+    <div class="mt-3">
+        <h1>home page</h1>
+    </div>
+</template>
 
-   <script setup>
-    import {ref, onMounted} from 'vue';
-    import axios from 'axios'
+<script setup>
 
-    const user = ref();
-
-    onMounted(async () => {
-        const data = await axios.get('/api/me');
-        console.log(data);
-        user.data = data.data;
-    })
-   </script>
+</script>

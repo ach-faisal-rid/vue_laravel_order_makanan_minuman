@@ -37,13 +37,40 @@ const email = ref('');
 const password = ref('');
 const router = useRouter();
 
+// Dapatkan CSRF Token
+const getToken = async() => {
+    await axios.get('/sanctum/csrf-cookie');
+};
+
+// Fungsi untuk login dan mendapatkan Bearer token
 const submitLogin = async () => {
-    await axios.post('/api/login', {
-        email: email.value,
-        password: password.value
-    });
+    try {
+        // Dapatkan CSRF token
+        await getToken();
 
-    router.push('/');
+        // Login dan dapatkan Bearer token
+        const response = await axios.post('/api/login', {
+            email: email.value,
+            password: password.value
+        });
 
-}
+        console.log(response);
+
+        // Simpan data pengguna dan token di localStorage
+        localStorage.setItem('email', response.data.data.email);
+        localStorage.setItem('name', response.data.data.name);
+        localStorage.setItem('role_id', response.data.data.level);
+        localStorage.setItem('token', response.data.token);
+
+        // Set default header untuk semua permintaan Axios berikutnya
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.token}`;
+
+        // Alihkan ke halaman utama
+        router.push('/');
+    } catch (error) {
+        console.log(error);
+        console.log('Ini error');
+    }
+};
+
 </script>
