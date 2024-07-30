@@ -5,6 +5,7 @@ import { useRouter, useRoute, RouterLink } from 'vue-router';
 
 // Inisialisasi nilai ref untuk menyimpan nama pengguna
 const userName = ref('');
+const roleId = ref('');
 
 // Gunakan useRouter untuk navigasi
 const router = useRouter();
@@ -12,10 +13,15 @@ const router = useRouter();
 // Ambil nilai dari localStorage saat komponen dimuat
 onMounted(() => {
     userName.value = localStorage.getItem('name') || '';
+    roleId.value = localStorage.getItem('role_id')|| '';
 
     // Periksa apakah userName kosong atau tidak ada, lalu arahkan ke halaman login
     if (!userName.value) {
         router.push({ name: 'login' });
+    }
+
+    if (roleId.value != 4 && roleId.value != 1) {
+        router.push({ name: 'home' });
     }
 });
 
@@ -57,7 +63,7 @@ const logout = () => {
                     <li class="nav-item">
                         <router-link to="/" class="nav-link active" aria-current="page">Home</router-link>
                     </li>
-                    <li class="nav-item">
+                    <li v-if="roleId == 4 || roleId == 1" class="nav-item">
                         <router-link v-if="userName" to="/order" class="nav-link active" aria-current="page">Order</router-link>
                     </li>
                     <li class="nav-item">
@@ -71,6 +77,7 @@ const logout = () => {
                 <!-- User Info -->
                 <div v-if="userName">
                     <span class="navbar-text me-3">Hi, {{ userName }}</span>
+                    <!-- <span class="navbar-text me-3">you are, {{ roleId }}</span> -->
                 </div>
 
                 <!-- Avatar -->
