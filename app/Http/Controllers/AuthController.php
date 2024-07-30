@@ -30,7 +30,7 @@ class AuthController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
                 'level' => $user->role_id,
-                'tgl_buat' => date('Y-m-d H:i:s', strtotime($user->timestamps)),
+                'tgl_buat' => $user->created_at->format('Y-m-d H:i:s'),
             ],
             'message' => 'login berhasil',
             'token' => $token,

@@ -15,7 +15,8 @@
                         <!-- Card box -->
                         <div v-for="item in items" :key="item.id" class="col-12 mt-3 col-sm-6 col-md-4 col-lg-3 mb-3">
                             <div class="card h-100">
-                                <img :src="getItemImageUrl(item.image)" class="card-img-top object-fit-cover" :alt="item.name">
+                                <img :src="getItemImageUrl(item.image)" class="card-img-top object-fit-cover"
+                                    :alt="item.name">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ item.name }}</h5>
                                     <p class="card-text">Rp. {{ item.price }}</p>
@@ -41,15 +42,12 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-// Inisialisasi ref untuk menyimpan items
 const items = ref([]);
 
-// Fungsi untuk mendapatkan URL gambar item
 const getItemImageUrl = (imageName) => {
-    return `http://localhost:8000/${imageName}`;
+    return `http://localhost:8000/storage/${imageName.replace('public/', '')}`;
 };
 
-// Fungsi untuk mendapatkan item
 const getItem = () => {
     axios.get('/api/item', {
         headers: {
@@ -65,7 +63,6 @@ const getItem = () => {
         });
 };
 
-// Memanggil fungsi getItem saat komponen dimuat
 onMounted(() => {
     getItem();
 });
@@ -74,15 +71,11 @@ onMounted(() => {
 <style scoped>
 .card {
     width: 100%;
-    /* Membuat card menyesuaikan dengan lebar kolom */
     max-width: 18rem;
-    /* Menjaga proporsi card */
 }
 
 .card-img-top {
     height: 200px;
-    /* Membatasi tinggi gambar */
     object-fit: cover;
-    /* Membuat gambar menyesuaikan ukuran card */
 }
 </style>
