@@ -64,7 +64,7 @@ const logout = () => {
                         <router-link to="/" class="nav-link active" aria-current="page">Home</router-link>
                     </li>
                     <li v-if="roleId == 4 || roleId == 1" class="nav-item">
-                        <router-link v-if="userName" to="/order" class="nav-link active" aria-current="page">Order</router-link>
+                        <router-link v-if="userName" to="/order" class="nav-link" aria-current="page">Order</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link v-if="!userName" to="/register" class="nav-link">Register</router-link>

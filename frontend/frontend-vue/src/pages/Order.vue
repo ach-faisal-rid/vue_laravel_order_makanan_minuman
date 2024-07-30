@@ -43,9 +43,12 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 const items = ref([]);
 const keyword = ref('');
+const router = useRouter();
+const requiredRoles = [1, 4]; // Role yang diizinkan mengakses halaman ini
 
 const getItemImageUrl = (imageName) => {
     return `http://localhost:8000/storage/${imageName.replace('public/', '')}`;
@@ -74,8 +77,15 @@ const filteredItems = computed(() => {
 });
 
 onMounted(() => {
-    getItem();
+    const userRole = localStorage.getItem('role_id');
+
+    if (!userRole || !requiredRoles.includes(Number(userRole))) {
+        router.push({ name: 'home' }); // Redirect jika role tidak sesuai
+    } else {
+        getItem();
+    }
 });
+
 </script>
 
 <style scoped>
