@@ -58,6 +58,9 @@ const logout = () => {
                         <router-link to="/" class="nav-link active" aria-current="page">Home</router-link>
                     </li>
                     <li class="nav-item">
+                        <router-link v-if="userName" to="/order" class="nav-link active" aria-current="page">Order</router-link>
+                    </li>
+                    <li class="nav-item">
                         <router-link v-if="!userName" to="/register" class="nav-link">Register</router-link>
                     </li>
                     <li class="nav-item">
@@ -71,7 +74,7 @@ const logout = () => {
                 </div>
 
                 <!-- Avatar -->
-                <div class="dropdown">
+                <div class="dropdown" v-if="userName">
                     <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#"
                         id="navbarDropdownMenuAvatar" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="25"

@@ -1,0 +1,88 @@
+<template>
+    <div class="mt-5 container-fluid">
+        <h1>Show Order Product</h1>
+        <div class="row">
+            <!-- Item list -->
+            <div class="col-12 col-sm-8 mb-3 border rounded">
+                <!-- Search box -->
+                <div class="col-4 mt-2">
+                    <input type="text" class="form-control" placeholder="Search here...!">
+                </div>
+
+                <!-- Item list box -->
+                <div class="col-12">
+                    <div class="row">
+                        <!-- Card box -->
+                        <div v-for="item in items" :key="item.id" class="col-12 mt-3 col-sm-6 col-md-4 col-lg-3 mb-3">
+                            <div class="card h-100">
+                                <img :src="getItemImageUrl(item.image)" class="card-img-top object-fit-cover" :alt="item.name">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item.name }}</h5>
+                                    <p class="card-text">Rp. {{ item.price }}</p>
+                                </div>
+                                <div class="card-body">
+                                    <a href="#" class="card-link">Card link</a>
+                                    <a href="#" class="card-link">Another link</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Order item -->
+            <div class="col-12 col-sm-4 mb-3 border rounded">
+                adsada
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+// Inisialisasi ref untuk menyimpan items
+const items = ref([]);
+
+// Fungsi untuk mendapatkan URL gambar item
+const getItemImageUrl = (imageName) => {
+    return `http://localhost:8000/${imageName}`;
+};
+
+// Fungsi untuk mendapatkan item
+const getItem = () => {
+    axios.get('/api/item', {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+        .then((response) => {
+            items.value = response.data.data;
+        })
+        .catch((error) => {
+            console.log(error);
+            console.log('Error fetching items');
+        });
+};
+
+// Memanggil fungsi getItem saat komponen dimuat
+onMounted(() => {
+    getItem();
+});
+</script>
+
+<style scoped>
+.card {
+    width: 100%;
+    /* Membuat card menyesuaikan dengan lebar kolom */
+    max-width: 18rem;
+    /* Menjaga proporsi card */
+}
+
+.card-img-top {
+    height: 200px;
+    /* Membatasi tinggi gambar */
+    object-fit: cover;
+    /* Membuat gambar menyesuaikan ukuran card */
+}
+</style>
