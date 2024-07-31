@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AbleCreateUser
+class AbleCreateUpdateUser
 {
     /**
      * Handle an incoming request.
@@ -29,7 +29,7 @@ class AbleCreateUser
             , 403
             );
         }
-        
+
         return $next($request);
     }
 }
