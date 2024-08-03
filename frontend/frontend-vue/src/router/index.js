@@ -3,6 +3,7 @@ import Home from "../pages/Home.vue"
 import Login from "../pages/Login.vue"
 import Register from "../pages/Register.vue"
 import Order from "../pages/Order.vue"
+import Product from "../pages/Product.vue"
 
 const routes = [
     {
@@ -25,6 +26,12 @@ const routes = [
         name: 'Order',
         component: Order,
         meta: { requiresRole: [1, 4] } // Role yang diizinkan untuk mengakses halaman ini
+    },
+    {
+        path: '/product',
+        name: 'Product',
+        component: Product,
+        meta: { requiresRole: [1] } // Role yang diizinkan untuk mengakses halaman ini
     },
 ];
 

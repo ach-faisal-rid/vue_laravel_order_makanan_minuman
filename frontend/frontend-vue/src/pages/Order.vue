@@ -24,8 +24,7 @@
                                     <p class="card-text">Rp. {{ item.price }}</p>
                                 </div>
                                 <div class="card-body">
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
+                                    <a href="#" class="card-link">order</a>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +54,7 @@ const getItemImageUrl = (imageName) => {
 };
 
 const getItem = () => {
-    axios.get('/api/item', {
+    axios.get('/api/index-item', {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
