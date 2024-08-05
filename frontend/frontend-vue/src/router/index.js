@@ -31,7 +31,7 @@ const routes = [
         path: '/product',
         name: 'Product',
         component: Product,
-        meta: { requiresRole: [1] } // Role yang diizinkan untuk mengakses halaman ini
+        meta: { requiresRole: [4] } // Role yang diizinkan untuk mengakses halaman ini
     },
 ];
 
