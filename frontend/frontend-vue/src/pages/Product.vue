@@ -2,6 +2,7 @@
     <div class="container">
         <h1 class="my-5">halaman product</h1>
 
+        <a href="/product-add" class="btn btn-success mb-3">Add Product</a>
         <!-- Search box -->
         <div class="col-4 mt-2">
             <input type="text" class="form-control" v-model="keyword" placeholder="Search here...!">
@@ -27,7 +28,7 @@
                         <img :src="getItemImageUrl(item.image)" alt="Product Image" width="150">
                     </td>
                     <td>
-                        <a class="btn btn-primary" href="#">edit</a>
+                        <RouterLink class="btn btn-primary" :to="{name: 'productUpdate', params: {productId: item.id}}">edit</RouterLink>
                     </td>
                 </tr>
             </tbody>

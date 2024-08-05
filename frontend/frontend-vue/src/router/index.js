@@ -4,6 +4,8 @@ import Login from "../pages/Login.vue"
 import Register from "../pages/Register.vue"
 import Order from "../pages/Order.vue"
 import Product from "../pages/Product.vue"
+import ProductUpdate from "../pages/ProductUpdate.vue"
+import ProductAdd from "../pages/ProductAdd.vue"
 
 const routes = [
     {
@@ -31,6 +33,18 @@ const routes = [
         path: '/product',
         name: 'Product',
         component: Product,
+        meta: { requiresRole: [4] } // Role yang diizinkan untuk mengakses halaman ini
+    },
+    {
+        path: '/product/:productId',
+        name: 'productUpdate',
+        component: ProductUpdate,
+        meta: { requiresRole: [4] } // Role yang diizinkan untuk mengakses halaman ini
+    },
+    {
+        path: '/product-add',
+        name: 'productAdd',
+        component: ProductAdd,
         meta: { requiresRole: [4] } // Role yang diizinkan untuk mengakses halaman ini
     },
 ];
