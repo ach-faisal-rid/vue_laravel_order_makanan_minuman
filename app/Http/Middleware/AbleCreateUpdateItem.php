@@ -15,19 +15,17 @@ class AbleCreateUpdateItem
      */
     public function handle(Request $request, Closure $next): Response
     {
+
         $user = auth()->user();
 
         if (!$user) {
-            return response([
-                'message' => 'Unauthorized'
-            ], 401);
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
 
-        if($user->role_id != 4) {
-            return response('you cannot access this function'
-            , 403
-            );
+        if ($user->role_id != 4) {
+            return response()->json(['message' => 'Forbidden'], 403);
         }
+
         return $next($request);
     }
 }
