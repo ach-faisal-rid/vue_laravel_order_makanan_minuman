@@ -16,6 +16,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
                     <th scope="col">Image</th>
+                    <th scope="col">category</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -27,6 +28,7 @@
                     <td>
                         <img :src="getItemImageUrl(item.image)" alt="Product Image" width="150">
                     </td>
+                    <td>{{ item.category }}</td>
                     <td>
                         <RouterLink class="btn btn-primary" :to="{name: 'productUpdate', params: {productId: item.id}}">edit</RouterLink>
                     </td>
