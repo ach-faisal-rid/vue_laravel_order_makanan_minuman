@@ -26,7 +26,8 @@
                     <td>{{ item.name }}</td>
                     <td>Rp. {{ item.price }}</td>
                     <td>
-                        <img :src="getItemImageUrl(item.image)" alt="Product Image" width="150">
+                        <img v-if="item.image" :src="getItemImageUrl(item.image)" alt="Product Image" width="150">
+                        <img v-else src="../../src/assets/images/no-image.png" alt="Product Image" width="150">
                     </td>
                     <td>{{ item.category }}</td>
                     <td>

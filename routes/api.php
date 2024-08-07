@@ -70,4 +70,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // route update item
     Route::post('/update-item/{id}', [ItemController::class, 'update'])
     ->middleware(['AbleCreateUpdateItem'])->name('update-item');
+
+    // route show item
+    Route::get('/show-item/{id}', [ItemController::class, 'show'])
+    ->middleware(['AbleCreateUpdateItem'])->name('show-item');
 });

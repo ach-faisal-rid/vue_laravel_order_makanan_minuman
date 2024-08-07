@@ -18,6 +18,12 @@ class ItemController extends Controller
         ]);
     }
 
+    //fungsi show
+    public function show($id) {
+        $item = Item::findOrFail($id);
+        return response(['data' => $item]);
+    }
+
     // fungsi create item
     public function store(Request $request) {
         $validated = $request->validate([
