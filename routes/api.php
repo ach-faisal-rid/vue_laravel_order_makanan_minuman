@@ -33,8 +33,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/create-user', [UserController::class, 'store'])
     ->middleware(['AbleCreateUpdateUser'])->name('create-user');
     // manage user info manager saja yang bisa akses
-    // Route::post('/manage-user-info', [UserController::class, 'update'])
-    // ->middleware(['AbleCreateUpdateUser'])->name('update-user');
+
     // delete user
 
     // route detail order
@@ -63,6 +62,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // route index item
     Route::get('/index-item', [ItemController::class, 'index'])->name('index');
 
+    // route show item
+    Route::get('/show-item/{id}', [ItemController::class, 'show'])
+    ->middleware(['AbleCreateUpdateItem'])->name('show-item');
+
     // route create item
     Route::post('/create-item', [ItemController::class, 'store'])
     ->middleware(['AbleCreateUpdateItem'])->name('create-item');
@@ -71,7 +74,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/update-item/{id}', [ItemController::class, 'update'])
     ->middleware(['AbleCreateUpdateItem'])->name('update-item');
 
-    // route show item
-    Route::get('/show-item/{id}', [ItemController::class, 'show'])
-    ->middleware(['AbleCreateUpdateItem'])->name('show-item');
 });
