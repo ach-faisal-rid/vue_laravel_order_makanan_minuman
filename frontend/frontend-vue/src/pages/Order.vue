@@ -1,6 +1,9 @@
 <template>
     <div class="mt-5 container-fluid">
         <h1>Show Order Product</h1>
+        <div class="my-3">
+            <a href="/order-list" class="btn btn-outline-success mb-3">Order List</a>
+        </div>
         <div class="row">
             <!-- Item list -->
             <div class="col-12 col-sm-8 mb-3 border rounded">
@@ -62,7 +65,7 @@
                         <span>Rp. {{ totalAmount }}</span>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success form-control" @click="submitOrder()">Submit</button>
+                <button type="submit" class="btn btn-success form-control" :disabled="processing" @click="submitOrder()">{{ processing ? 'Processing order...' : 'Submit' }}</button>
             </div>
         </div>
     </div>
@@ -80,6 +83,7 @@ const customerName = ref('');
 const tabelNo = ref('');
 const router = useRouter();
 const requiredRoles = [1, 4]; // Role yang diizinkan mengakses halaman ini
+const processing = ref(false);
 
 const getItemImageUrl = (imageName) => {
     return `http://localhost:8000/storage/${imageName.replace('public/', '')}`;
@@ -136,6 +140,8 @@ const submitOrder = () => {
         return;
     }
 
+    processing.value = true;
+
     const orderData = {
         customer_name: customerName.value,
         table_no: tabelNo.value,
@@ -160,6 +166,9 @@ const submitOrder = () => {
     .catch(error => {
         console.error('Error submitting order:', error);
         alert('Error submitting order. Please try again.');
+    })
+    .finally(() => {
+        processing.value = false;
     });
 };
 

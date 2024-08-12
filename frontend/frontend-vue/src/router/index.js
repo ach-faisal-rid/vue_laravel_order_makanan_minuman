@@ -6,6 +6,7 @@ import Order from "../pages/Order.vue"
 import Product from "../pages/Product.vue"
 import ProductUpdate from "../pages/ProductUpdate.vue"
 import ProductAdd from "../pages/ProductAdd.vue"
+import OrderList from "../pages/OrderList.vue"
 
 const routes = [
     {
@@ -46,6 +47,11 @@ const routes = [
         name: 'productAdd',
         component: ProductAdd,
         meta: { requiresRole: [4] } // Role yang diizinkan untuk mengakses halaman ini
+    },
+    {
+        path: '/order-list',
+        name: 'orderList',
+        component: OrderList,
     },
 ];
 
