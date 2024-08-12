@@ -36,11 +36,11 @@
                 <div class="mb-5">
                     <div class="mb-3">
                         <label for="customerName" class="form-label">Customer Name</label>
-                        <input type="text" class="form-control" id="customerName">
+                        <input type="text" v-model="customerName" class="form-control" id="customerName">
                     </div>
                     <div class="mb-3">
-                        <label for="tabelNo" class="form-label">tabel No.</label>
-                        <input type="text" class="form-control" id="tabelNo">
+                        <label for="tabelNo" class="form-label">Table No.</label>
+                        <input type="text" v-model="tabelNo" class="form-control" id="tabelNo">
                     </div>
                 </div>
                 <hr>
@@ -62,7 +62,7 @@
                         <span>Rp. {{ totalAmount }}</span>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success form-control">Submit</button>
+                <button type="submit" class="btn btn-success form-control" @click="submitOrder()">Submit</button>
             </div>
         </div>
     </div>
@@ -76,6 +76,8 @@ import { useRouter } from 'vue-router';
 const items = ref([]);
 const keyword = ref('');
 const orderItems = ref([]);
+const customerName = ref('');
+const tabelNo = ref('');
 const router = useRouter();
 const requiredRoles = [1, 4]; // Role yang diizinkan mengakses halaman ini
 
@@ -89,13 +91,13 @@ const getItem = () => {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     })
-        .then((response) => {
-            items.value = response.data.data;
-        })
-        .catch((error) => {
-            console.log(error);
-            console.log('Error fetching items');
-        });
+    .then((response) => {
+        items.value = response.data.data;
+    })
+    .catch((error) => {
+        console.log(error);
+        console.log('Error fetching items');
+    });
 };
 
 const addToOrder = (item) => {
@@ -127,6 +129,39 @@ const removeFromOrder = (index) => {
 const totalAmount = computed(() => {
     return orderItems.value.reduce((total, order) => total + order.item.price * order.quantity, 0);
 });
+
+const submitOrder = () => {
+    if (customerName.value === '' || tabelNo.value === '') {
+        alert('Customer name and table no cannot be empty');
+        return;
+    }
+
+    const orderData = {
+        customer_name: customerName.value,
+        table_no: tabelNo.value,
+        items: orderItems.value.map(order => ({
+            id: order.item.id,
+            qty: order.quantity,
+        }))
+    };
+
+    axios.post('/api/create-order', orderData, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    .then(response => {
+        console.log('Order submitted successfully:', response.data);
+        alert('Order submitted successfully!');
+        orderItems.value = []; // Kosongkan daftar pesanan setelah submit berhasil
+        customerName.value = ''; // Kosongkan nama customer
+        tabelNo.value = ''; // Kosongkan nomor meja
+    })
+    .catch(error => {
+        console.error('Error submitting order:', error);
+        alert('Error submitting order. Please try again.');
+    });
+};
 
 // Computed property untuk memfilter item berdasarkan kata kunci pencarian
 const filteredItems = computed(() => {

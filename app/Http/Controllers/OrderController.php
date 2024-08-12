@@ -39,8 +39,9 @@ class OrderController extends Controller
         $validated = $request->validate([
             'customer_name' => 'required|max:100',
             'table_no' => 'required',
-            'items' => 'array', // Validasi bahwa items adalah array
-            'items.*' => 'exists:items,id' // Validasi bahwa setiap item ada di tabel items
+            'items' => 'required|array', // Pastikan items adalah array dan tidak kosong
+            'items.*.id' => 'exists:items,id', // Validasi bahwa setiap item ada di tabel items
+            'items.*.qty' => 'required|integer|min:1' // Pastikan setiap item memiliki quantity
         ]);
 
         try {
@@ -55,31 +56,37 @@ class OrderController extends Controller
             // Membuat order baru
             $order = Order::create($data);
 
-            // Mendapatkan item dari request, jika tidak ada, set sebagai array kosong
+            // Mendapatkan item dari request
             $items = $request->input('items', []);
             $orderStatuses = [];
             $totalPrice = 0;
 
             // Ambil semua item dari database dalam satu query
             if (!empty($items)) {
-                $foodDrinks = Item::whereIn('id', $items)->get()->keyBy('id');
+                $foodDrinks = Item::whereIn('id', array_column($items, 'id'))->get()->keyBy('id');
 
                 // Proses setiap item
-                foreach ($items as $item) {
-                    if (isset($foodDrinks[$item])) {
-                        $foodDrink = $foodDrinks[$item];
+                foreach ($items as $itemData) {
+                    $itemId = $itemData['id'];
+                    $qty = $itemData['qty'];
+
+                    if (isset($foodDrinks[$itemId])) {
+                        $foodDrink = $foodDrinks[$itemId];
+                        $price = $foodDrink->price;
+                        $total = $price * $qty;
+
                         $orderStatuses[] = [
                             'order_id' => $order->id,
-                            'item_id' => $item,
-                            'price' => $foodDrink->price,
-                            'qty' => 1,
-                            'total' => 1,
+                            'item_id' => $itemId,
+                            'price' => $price,
+                            'qty' => $qty,
+                            'total' => $total,
                             'created_at' => now(),
                             'updated_at' => now()
                         ];
 
                         // Tambahkan harga item ke total
-                        $totalPrice += $foodDrink->price;
+                        $totalPrice += $total;
                     }
                 }
             }
