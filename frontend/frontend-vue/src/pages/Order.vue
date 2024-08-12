@@ -25,7 +25,7 @@
                                     <p class="card-text">Rp. {{ item.price }}</p>
                                 </div>
                                 <div class="card-body">
-                                    <a href="#" class="card-link">order</a>
+                                    <a href="#" @click="addToOrder(item)" class="btn btn-warning card-link">order</a>
                                 </div>
                             </div>
                         </div>
@@ -36,22 +36,18 @@
             <div class="col-12 col-sm-4 mb-3 border rounded p-3">
                 <h2 class="text-center">Order List</h2>
                 <hr>
-                <div class="d-flex justify-content-between">
-                    <span>Ayam Geprek (1)</span>
-                    <span>Rp. 12.000</span>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <span>Aceh Pride Mie Pedas (1)</span>
-                    <span>Rp. 12.000</span>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <span>Angsle (2)</span>
-                    <span>Rp. 8.000</span>
-                </div>
-                <hr>
-                <div class="d-flex justify-content-between font-weight-bold">
-                    <span>Total</span>
-                    <span>Rp. 40.000</span>
+                <div v-if="orderItems.length === 0" class="text-center">No items ordered</div>
+                <div v-else>
+                    <div v-for="order in orderItems" :key="order.item.id" class="d-flex justify-content-between">
+                        <span>{{ order.item.name }} ({{ order.quantity }})</span>
+                        <span>Rp. {{ order.item.price * order.quantity }}</span>
+                        <button @click="removeFromOrder(index)" class="btn btn-danger btn-sm">Remove</button>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between font-weight-bold">
+                        <span>Total</span>
+                        <span>Rp. {{ totalAmount }}</span>
+                    </div>
                 </div>
             </div>
 
@@ -64,10 +60,11 @@ import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
-const items = ref([]);
-const keyword = ref('');
+const items = ref([]); // tampilkan semua makanan
+const keyword = ref(''); // cari makanan
 const router = useRouter();
 const requiredRoles = [1, 4]; // Role yang diizinkan mengakses halaman ini
+const orderItems = ref([]); // order item
 
 const getItemImageUrl = (imageName) => {
     return `http://localhost:8000/storage/${imageName.replace('public/', '')}`;
@@ -87,6 +84,27 @@ const getItem = () => {
             console.log('Error fetching items');
         });
 };
+
+// menambahkan item ke order
+const addToOrder = (item) => {
+    const existingOrder = orderItems.value.find(order => order.item.id === item.id);
+
+    if (existingOrder) {
+        existingOrder.quantity++;
+    } else {
+        orderItems.value.push({ item, quantity: 1 });
+    }
+};
+
+// hapus item
+const removeFromOrder = (index) => {
+    orderItems.value.splice(index, 1); // Menghapus item dari daftar pesanan berdasarkan index
+};
+
+// menjumlahkan item
+const totalAmount = computed(() => {
+    return orderItems.value.reduce((total, order) => total + order.item.price * order.quantity, 0);
+});
 
 // Computed property untuk memfilter item berdasarkan kata kunci pencarian
 const filteredItems = computed(() => {
