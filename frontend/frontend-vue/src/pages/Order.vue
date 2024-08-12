@@ -9,13 +9,14 @@
                     <input type="text" class="form-control" v-model="keyword" placeholder="Search here...!">
                 </div>
 
-                <hr/>
+                <hr />
 
                 <!-- Item list box -->
                 <div class="col-12">
                     <div class="row">
                         <!-- Card box -->
-                        <div v-for="item in filteredItems" :key="item.id" class="col-12 mt-3 col-sm-6 col-md-4 col-lg-3 mb-3">
+                        <div v-for="item in filteredItems" :key="item.id"
+                            class="col-12 mt-3 col-sm-6 col-md-4 col-lg-3 mb-3">
                             <div class="card h-100">
                                 <img :src="getItemImageUrl(item.image)" class="card-img-top object-fit-cover"
                                     :alt="item.name">
@@ -32,9 +33,28 @@
                 </div>
             </div>
             <!-- Order item -->
-            <div class="col-12 col-sm-4 mb-3 border rounded">
-                adsada
+            <div class="col-12 col-sm-4 mb-3 border rounded p-3">
+                <h2 class="text-center">Order List</h2>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <span>Ayam Geprek (1)</span>
+                    <span>Rp. 12.000</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Aceh Pride Mie Pedas (1)</span>
+                    <span>Rp. 12.000</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Angsle (2)</span>
+                    <span>Rp. 8.000</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between font-weight-bold">
+                    <span>Total</span>
+                    <span>Rp. 40.000</span>
+                </div>
             </div>
+
         </div>
     </div>
 </template>
