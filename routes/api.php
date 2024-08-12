@@ -32,6 +32,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // create user
     Route::post('/create-user', [UserController::class, 'store'])
     ->middleware(['AbleCreateUpdateUser'])->name('create-user');
+
     // manage user info manager saja yang bisa akses
 
     // delete user

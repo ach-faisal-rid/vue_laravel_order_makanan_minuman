@@ -51,7 +51,7 @@ const logout = () => {
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <!-- logo -->
-            <a class="navbar-brand" to="/">Navbar</a>
+            <a class="navbar-brand" to="/">food order app</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -68,9 +68,6 @@ const logout = () => {
                     </li>
                     <li v-if="roleId == 4" class="nav-item">
                         <router-link v-if="userName" to="/product" class="nav-link" aria-current="page">Product</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link v-if="!userName" to="/register" class="nav-link">Register</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link v-if="!userName" to="/login" class="nav-link" aria-current="page">Login</router-link>

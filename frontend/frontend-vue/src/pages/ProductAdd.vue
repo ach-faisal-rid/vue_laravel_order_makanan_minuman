@@ -76,6 +76,7 @@ export default {
             })
             .then(response => {
                 console.log(response);
+                router.push({name: 'product'})
                 // Redirect atau tindakan lain setelah berhasil
             })
             .catch(error => {
