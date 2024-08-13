@@ -37,7 +37,7 @@ const logout = () => {
         localStorage.removeItem('name');
         localStorage.removeItem('role_id');
         localStorage.removeItem('token');
-        router.push({ name: 'login' });
+        router.push({ name: 'Login' });
     })
     .catch(function (error) {
         console.log(error);

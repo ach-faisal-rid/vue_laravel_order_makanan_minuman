@@ -69,7 +69,7 @@ export default {
         this.roleId = localStorage.getItem('role_id');
 
         if (!this.userName || this.userName === '' || this.userName === null) {
-            router.push({ name: 'login' });
+            router.push({ name: 'Login' });
         }
         this.getOrder();
     },

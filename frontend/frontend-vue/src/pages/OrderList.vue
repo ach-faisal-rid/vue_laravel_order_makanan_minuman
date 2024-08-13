@@ -12,7 +12,7 @@
                     <th scope="col">Order Time</th>
                     <th scope="col">Waitress</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Chasier</th>
+                    <th scope="col">Cashier</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -25,7 +25,7 @@
                     <td>{{ formatTime(order.created_at) }}</td>
                     <td>{{ order.waitress ? order.waitress.name : '-' }}</td>
                     <td>{{ order.status }}</td>
-                    <td>{{ order.chasier ? order.chasier.name : '-' }}</td>
+                    <td>{{ order.cashier ? order.cashier.name : '-' }}</td>
                     <td>
                         <RouterLink class="btn btn-primary" :to="{name: 'orderDetail', params: {orderId: order.id}}">View Detail</RouterLink>
                     </td>
@@ -35,7 +35,6 @@
                 </tr>
             </tbody>
         </table>
-
     </div>
 </template>
 
@@ -55,10 +54,11 @@ export default {
         this.userName = localStorage.getItem('name')
         this.roleId = localStorage.getItem('role_id')
 
-        if (!this.userName || this.userName === '' || this.userName === null) {
-            router.push({ name: 'login' });
+        if (!this.userName || !this.roleId) {
+            router.push({ name: 'Login' });
+        } else {
+            this.getOrders();
         }
-        this.getOrders();
     },
     methods: {
         getOrders() {
