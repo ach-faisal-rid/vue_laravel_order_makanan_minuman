@@ -160,7 +160,7 @@ class OrderController extends Controller
         }
 
         $order->status = 'paid';
-        $order->chasier = auth()->user()->id; // Pastikan 'chasier' menyimpan ID kasir
+        $order->chasier = auth()->user()->id;
         $order->save();
 
         return response()->json([
@@ -171,6 +171,29 @@ class OrderController extends Controller
                 'waitress:id,name', 'chasier:id,name'
                 ]
             ),
+        ]);
+    }
+
+    // fungsi order report
+    public function orderReport(Request $request) {
+        $data = Order::whereMonth('created_at', $request->month);
+        $orders = $data->select('id', 'customer_name', 'table_no', 'status', 'total', 'created_at', 'waitress_id', 'chasier_id')
+        ->with(['waitress:id,name', 'chasier:id,name'])
+        ->get();
+
+        $orderCount = $data->count();
+        $maxPayment = $data->max('total');
+        $minPayment = $data->min('total');
+
+        $result = [
+            'orders' => $orders,
+            'orderCount' => $orderCount,
+            'maxPayment' => $maxPayment,
+            'minPayment' => $minPayment,
+        ];
+
+        return response()->json([
+            'data' => $result
         ]);
     }
 

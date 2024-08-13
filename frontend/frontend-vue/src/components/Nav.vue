@@ -69,6 +69,9 @@ const logout = () => {
                     <li v-if="roleId == 4" class="nav-item">
                         <router-link v-if="userName" to="/product" class="nav-link" aria-current="page">Product</router-link>
                     </li>
+                    <li v-if="roleId == 4" class="nav-item">
+                        <router-link v-if="userName" to="/order-report" class="nav-link" aria-current="page">Order Report</router-link>
+                    </li>
                     <li class="nav-item">
                         <router-link v-if="userName" to="/order-list" class="nav-link" aria-current="page">Order List</router-link>
                     </li>

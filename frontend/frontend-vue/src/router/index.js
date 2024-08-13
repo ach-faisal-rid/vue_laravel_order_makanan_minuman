@@ -8,6 +8,7 @@ import ProductUpdate from "../pages/ProductUpdate.vue";
 import ProductAdd from "../pages/ProductAdd.vue";
 import OrderList from "../pages/OrderList.vue";
 import OrderDetail from "../pages/OrderDetail.vue";
+import OrderReport from "../pages/OrderReport.vue";
 
 const routes = [
     {
@@ -60,6 +61,12 @@ const routes = [
         name: 'orderDetail',
         component: OrderDetail,
         meta: { requiresRole: [1, 2, 3, 4], canUpdate: true }
+    },
+    {
+        path: '/order-report',
+        name: 'orderReport',
+        component: OrderReport,
+        meta: { requiresRole: [4] }
     },
 ];
 
