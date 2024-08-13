@@ -12,7 +12,8 @@ class OrderController extends Controller
 {
     // fungsi index order
     public function index() {
-        $order = Order::select('id', 'customer_name', 'table_no', 'status', 'total')
+        $order = Order::select('id', 'customer_name', 'table_no', 'status', 'total', 'created_at', 'waitress_id', 'chasier_id')
+        ->with(['waitress:id,name', 'chasier:id,name'])
         ->get();
         return response()->json([
             'data' => $order

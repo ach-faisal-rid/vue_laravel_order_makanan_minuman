@@ -8,7 +8,7 @@
             <input type="text" class="form-control" v-model="keyword" placeholder="Search here...!">
         </div>
 
-        <table class="table table-striped my-5">
+        <table class="table table-striped highlight responsive-table my-5">
 
             <thead>
                 <tr>
