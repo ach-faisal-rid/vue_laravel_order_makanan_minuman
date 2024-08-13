@@ -55,7 +55,7 @@ export default {
         this.roleId = localStorage.getItem('role_id')
 
         if (!this.userName || !this.roleId) {
-            router.push({ name: 'Login' });
+            router.push({ name: 'login' });
         } else {
             this.getOrders();
         }

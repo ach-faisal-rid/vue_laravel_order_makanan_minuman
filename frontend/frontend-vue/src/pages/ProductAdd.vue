@@ -52,7 +52,7 @@ export default {
             router.push({ name: 'login' });
         }
         if (this.roleId != 4) {
-            router.push({ name: 'home' });
+            router.push({ name: 'Home' });
         }
     },
     methods: {

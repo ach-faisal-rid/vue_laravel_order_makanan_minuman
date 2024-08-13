@@ -79,12 +79,16 @@ router.beforeEach((to, from, next) => {
             console.log("Redirecting to Home");
             next({ name: 'Home' }); // Redirect if role does not match
         } else {
-            if (to.meta.canUpdate && ![1, 2, 3, 4].includes(userRole)) {
+            // Pastikan bahwa semua user dengan role [1, 2, 3, 4] dapat mengakses halaman yang memerlukan update
+            if (to.meta.canUpdate && to.meta.requiresRole.includes(userRole)) {
+                console.log("Access allowed with update permission");
+                next(); // Access allowed
+            } else if (!to.meta.canUpdate) {
+                console.log("Access allowed without update permission");
+                next(); // Access allowed if no update permission is required
+            } else {
                 console.log("Redirecting to Order List");
                 next({ name: 'orderList' }); // Redirect to order list if user can't update
-            } else {
-                console.log("Access allowed");
-                next(); // Access allowed
             }
         }
     } else {

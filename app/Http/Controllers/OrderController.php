@@ -11,7 +11,13 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends Controller
 {
     // fungsi index order
-    public function index() {
+    public function index(Request $request) {
+
+        $allowedRoles = [1, 2, 3, 4]; // Role ID yang diizinkan
+        if (!in_array($request->user()->role_id, $allowedRoles)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $order = Order::select('id', 'customer_name', 'table_no', 'status', 'total', 'created_at', 'waitress_id', 'chasier_id')
         ->with(['waitress:id,name', 'chasier:id,name'])
         ->get();
@@ -21,7 +27,13 @@ class OrderController extends Controller
     }
 
     // fungsi show order
-    public function show($id) {
+    public function show(Request $request, $id) {
+
+        $allowedRoles = [1, 2, 3, 4]; // Role ID yang diizinkan
+        if (!in_array($request->user()->role_id, $allowedRoles)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $order = Order::findOrFail($id);
         return response()->json([
             'data' => $order
@@ -114,26 +126,26 @@ class OrderController extends Controller
         ], 201); // Memberikan kode status HTTP 201 untuk berhasil dibuat
     }
 
-    // fungsu setAsDone
+    // fungsi setAsDone
     public function setAsDone($id) {
         $order = Order::findOrFail($id);
 
-        if($order->status != 'ordered') {
+        if ($order->status != 'ordered') {
             return response()->json([
-                'message' => 'order cannot set to done because the status is not ordered'
+                'message' => 'Order cannot be set to done because the status is not ordered'
             ], 403);
         }
+
         $order->status = 'done';
         $order->save();
 
         return response()->json([
-            'data' => $order
-            ->loadMissing(
-                ['orderStatus:order_id,price,item_id,qty',
-                'orderStatus.item:name,category,id',
-                'waitress:id,name', 'chasier:id,name'
-                ]
-            ),
+            'data' => $order->loadMissing([
+                'orderStatus:order_id,price,item_id,qty',
+                'orderStatus.item:id,name,category',
+                'waitress:id,name',
+                'chasier:id,name'
+            ]),
         ]);
     }
 
@@ -148,6 +160,7 @@ class OrderController extends Controller
         }
 
         $order->status = 'paid';
+        $order->chasier = auth()->user()->id; // Pastikan 'chasier' menyimpan ID kasir
         $order->save();
 
         return response()->json([

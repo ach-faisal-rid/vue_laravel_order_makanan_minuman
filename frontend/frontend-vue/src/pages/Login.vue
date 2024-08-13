@@ -3,7 +3,7 @@
         <div class="col-md-6 m-auto">
             <h1>login page</h1>
 
-            <form @submit.prevent="submitLogin">
+            <form @submit.prevent="submitlogin">
 
             <!-- Email input -->
             <div data-mdb-input-init class="form-outline mb-4">
@@ -43,12 +43,12 @@ const getToken = async() => {
 };
 
 // Fungsi untuk login dan mendapatkan Bearer token
-const submitLogin = async () => {
+const submitlogin = async () => {
     try {
         // Dapatkan CSRF token
         await getToken();
 
-        // Login dan dapatkan Bearer token
+        // login dan dapatkan Bearer token
         const response = await axios.post('/api/login', {
             email: email.value,
             password: password.value

@@ -1,7 +1,7 @@
 <template>
     <div class="mt-5 container-fluid">
         <h1>Show Order Product</h1>
-        
+
         <div class="row">
             <!-- Item list -->
             <div class="col-12 col-sm-8 mb-3 border rounded">
@@ -181,7 +181,7 @@ onMounted(() => {
     const userRole = localStorage.getItem('role_id');
 
     if (!userRole || !requiredRoles.includes(Number(userRole))) {
-        router.push({ name: 'home' }); // Redirect jika role tidak sesuai
+        router.push({ name: 'Home' }); // Redirect jika role tidak sesuai
     } else {
         getItem();
     }

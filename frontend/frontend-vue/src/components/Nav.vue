@@ -21,7 +21,7 @@ onMounted(() => {
     }
 
     if (roleId.value != 4 && roleId.value != 1) {
-        router.push({ name: 'home' });
+        router.push({ name: 'Home' });
     }
 });
 
@@ -37,7 +37,7 @@ const logout = () => {
         localStorage.removeItem('name');
         localStorage.removeItem('role_id');
         localStorage.removeItem('token');
-        router.push({ name: 'Login' });
+        router.push({ name: 'login' });
     })
     .catch(function (error) {
         console.log(error);
@@ -73,7 +73,7 @@ const logout = () => {
                         <router-link v-if="userName" to="/order-list" class="nav-link" aria-current="page">Order List</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link v-if="!userName" to="/login" class="nav-link" aria-current="page">Login</router-link>
+                        <router-link v-if="!userName" to="/login" class="nav-link" aria-current="page">login</router-link>
                     </li>
                 </ul>
 

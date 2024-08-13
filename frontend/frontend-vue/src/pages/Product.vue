@@ -79,7 +79,7 @@ onMounted(() => {
     const userRole = localStorage.getItem('role_id');
 
     if (!userRole || !requiredRoles.includes(Number(userRole))) {
-        router.push({ name: 'home' }); // Redirect jika role tidak sesuai
+        router.push({ name: 'Home' }); // Redirect jika role tidak sesuai
     } else {
         getItem();
     }
