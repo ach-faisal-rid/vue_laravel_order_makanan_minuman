@@ -1,11 +1,5 @@
 <template>
     <div class="container mt-5">
-        <h1>ngapain kerja kalau bapakmu kaya</h1>
-        <p>
-            kamu sebenarnya bukan bodoh, <br />
-            atau kurang kerja keras tapi salah rahim <br />
-            kamu bukan terlahir dari rahim orang kaya mangkannya hidupmu gini2 aja
-        </p>
         <div class="table-responsive mt-5">
             <table class="table striped highlight">
                 <tbody>
@@ -19,7 +13,7 @@
                         <td>Waitress : {{ order.waitress ? order.waitress.name : "-" }}</td>
                         <td>Chasier : {{ order.chasier ? order.chasier.name : "-" }}</td>
                         <td>Order Time : {{ formatTime(order.created_at) }}</td>
-                        <td>Grand Total : {{ order.total }}</td>
+                        <td>Grand Total : Rp. {{ order.total }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -34,23 +28,25 @@
                         <th>Total</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     <tr v-for="(item, index) in order.order_status" :key="index">
-                        <td>{{ index+1 }}</td>
+                        <td>{{ index + 1 }}</td>
                         <td>{{ item.item.name }}</td>
                         <td>Rp. {{ item.price }}</td>
                         <td>{{ item.qty }}</td>
-                        <td>Rp.{{ item.price * item.qty }}</td>
+                        <td>Rp. {{ item.price * item.qty }}</td>
                     </tr>
                 </tbody>
             </table>
 
             <div class="mt-3">
-                <!-- done if user is chef and order status == ordered -->
-                <button v-if="(order.status == 'ordered') && (roleId == 2)" class="btn btn-primary" @click="setAsDone(order.id)">Done</button>
-                <!-- done if user is chasier or manager and order status == done -->
-                <button v-if="(order.status == 'done') && (roleId == 3 || roleId == 4)" class="btn btn-success">Paid</button>
+                <!-- Show "Done" button if user is chef and order status == "ordered" -->
+                <button v-if="(order.status === 'ordered') && (roleId === '2')" class="btn btn-primary"
+                    @click="setAsDone(order.id)">Done</button>
+
+                <!-- Show "Paid" button if user is cashier or manager and order status == "done" -->
+                <button v-if="(order.status === 'done') && (roleId === '3' || roleId === '4')"
+                    class="btn btn-success" @click="setAsPaid(order.id)">Paid</button>
             </div>
         </div>
     </div>
@@ -84,23 +80,53 @@ export default {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             })
-                .then((response) => {
-                    this.order = response.data.data;
-                })
-                .catch((error) => {
-                    console.error('Error fetching order:', error);
-                });
+            .then((response) => {
+                this.order = response.data.data;
+            })
+            .catch((error) => {
+                console.error('Error fetching order:', error);
+            });
         },
         formatDate(dateTime) {
             return new Date(dateTime).toLocaleDateString();
         },
         formatTime(dateTime) {
             return new Date(dateTime).toLocaleTimeString();
+        },
+        setAsDone(orderId) {
+            axios.get(`/api/done-order/` + orderId + `/set-as-done`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            .then((response) => {
+                if (response.status === 200) {
+                    alert('Update order status to "done" was successful');
+                    this.getOrder(); // Refresh order data
+                }
+            })
+            .catch((error) => {
+                console.error('Error updating order status to "done":', error);
+            });
+        },
+        setAsPaid(orderId) {
+            axios.get(`/api/pay-order/` + orderId + `/payment`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            .then((response) => {
+                if (response.status === 200) {
+                    alert('Update order status to "paid" was successful');
+                    this.getOrder(); // Refresh order data
+                }
+            })
+            .catch((error) => {
+                console.error('Error updating order status to "paid":', error);
+            });
         }
     }
 }
 </script>
 
-<style scoped>
-/* Tambahkan styling CSS di sini jika diperlukan */
-</style>
+<style scoped></style>

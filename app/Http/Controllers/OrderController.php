@@ -128,6 +128,12 @@ class OrderController extends Controller
 
         return response()->json([
             'data' => $order
+            ->loadMissing(
+                ['orderStatus:order_id,price,item_id,qty',
+                'orderStatus.item:name,category,id',
+                'waitress:id,name', 'chasier:id,name'
+                ]
+            ),
         ]);
     }
 
@@ -143,6 +149,16 @@ class OrderController extends Controller
 
         $order->status = 'paid';
         $order->save();
+
+        return response()->json([
+            'data' => $order
+            ->loadMissing(
+                ['orderStatus:order_id,price,item_id,qty',
+                'orderStatus.item:name,category,id',
+                'waitress:id,name', 'chasier:id,name'
+                ]
+            ),
+        ]);
     }
 
 }

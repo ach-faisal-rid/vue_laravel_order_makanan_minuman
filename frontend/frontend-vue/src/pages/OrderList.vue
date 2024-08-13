@@ -10,25 +10,28 @@
                     <th scope="col">Total</th>
                     <th scope="col">Order Date</th>
                     <th scope="col">Order Time</th>
-                    <th scope="col">waitress</th>
+                    <th scope="col">Waitress</th>
                     <th scope="col">Status</th>
-                    <th scope="col">chasier</th>
-                    <th scope="col">action</th>
+                    <th scope="col">Chasier</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(order, index) in orders" :key="order.id">
+                <tr v-if="orders.length" v-for="(order, index) in orders" :key="order.id">
                     <th scope="row">{{ index + 1 }}</th>
                     <td>{{ order.customer_name }}</td>
                     <td>{{ order.total }}</td>
                     <td>{{ formatDate(order.created_at) }}</td>
                     <td>{{ formatTime(order.created_at) }}</td>
-                    <td>{{ order.waitress.name }}</td>
+                    <td>{{ order.waitress ? order.waitress.name : '-' }}</td>
                     <td>{{ order.status }}</td>
-                    <td>{{ order.chasier ? order.chasier.name : '' }}</td>
+                    <td>{{ order.chasier ? order.chasier.name : '-' }}</td>
                     <td>
-                        <RouterLink class="btn btn-primary" :to="{name: 'orderDetail', params: {orderId: order.id}}">view detail</RouterLink>
+                        <RouterLink class="btn btn-primary" :to="{name: 'orderDetail', params: {orderId: order.id}}">View Detail</RouterLink>
                     </td>
+                </tr>
+                <tr v-else>
+                    <td colspan="9" class="text-center">No orders found.</td>
                 </tr>
             </tbody>
         </table>
@@ -52,7 +55,7 @@ export default {
         this.userName = localStorage.getItem('name')
         this.roleId = localStorage.getItem('role_id')
 
-        if (!this.userName || this.userName == '' || this.userName == null) {
+        if (!this.userName || this.userName === '' || this.userName === null) {
             router.push({ name: 'login' });
         }
         this.getOrders();
@@ -65,6 +68,7 @@ export default {
                 }
             })
             .then((response) => {
+                console.log('Orders Data:', response.data.data); // Logging data orders
                 this.orders = response.data.data;
             })
             .catch((error) => {
@@ -81,6 +85,4 @@ export default {
 }
 </script>
 
-<style scoped>
-/* Style for table or any other custom styling can be added here */
-</style>
+<style scoped></style>
