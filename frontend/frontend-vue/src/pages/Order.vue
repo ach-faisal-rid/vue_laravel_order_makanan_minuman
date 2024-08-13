@@ -1,9 +1,7 @@
 <template>
     <div class="mt-5 container-fluid">
         <h1>Show Order Product</h1>
-        <div class="my-3">
-            <a href="/order-list" class="btn btn-outline-success mb-3">Order List</a>
-        </div>
+        
         <div class="row">
             <!-- Item list -->
             <div class="col-12 col-sm-8 mb-3 border rounded">

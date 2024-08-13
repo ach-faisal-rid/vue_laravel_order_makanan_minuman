@@ -13,6 +13,7 @@
                     <th scope="col">waitress</th>
                     <th scope="col">Status</th>
                     <th scope="col">chasier</th>
+                    <th scope="col">action</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,6 +25,10 @@
                     <td>{{ formatTime(order.created_at) }}</td>
                     <td>{{ order.waitress.name }}</td>
                     <td>{{ order.status }}</td>
+                    <td>{{ order.chasier ? order.chasier.name : '' }}</td>
+                    <td>
+                        <RouterLink class="btn btn-primary" :to="{name: 'orderDetail', params: {orderId: order.id}}">view detail</RouterLink>
+                    </td>
                 </tr>
             </tbody>
         </table>

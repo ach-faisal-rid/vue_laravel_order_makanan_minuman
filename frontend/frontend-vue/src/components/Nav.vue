@@ -70,6 +70,9 @@ const logout = () => {
                         <router-link v-if="userName" to="/product" class="nav-link" aria-current="page">Product</router-link>
                     </li>
                     <li class="nav-item">
+                        <router-link to="/order-list" class="nav-link" aria-current="page">Order List</router-link>
+                    </li>
+                    <li class="nav-item">
                         <router-link v-if="!userName" to="/login" class="nav-link" aria-current="page">Login</router-link>
                     </li>
                 </ul>

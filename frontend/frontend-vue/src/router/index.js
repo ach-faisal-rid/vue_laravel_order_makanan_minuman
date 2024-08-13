@@ -7,6 +7,7 @@ import Product from "../pages/Product.vue"
 import ProductUpdate from "../pages/ProductUpdate.vue"
 import ProductAdd from "../pages/ProductAdd.vue"
 import OrderList from "../pages/OrderList.vue"
+import OrderDetail from "../pages/OrderDetail.vue"
 
 const routes = [
     {
@@ -52,6 +53,11 @@ const routes = [
         path: '/order-list',
         name: 'orderList',
         component: OrderList,
+    },
+    {
+        path: '/order/:orderId',
+        name: 'orderDetail',
+        component: OrderDetail
     },
 ];
 
